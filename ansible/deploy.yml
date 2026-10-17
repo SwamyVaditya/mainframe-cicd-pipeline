@@ -1,0 +1,26 @@
+---
+- name: Deploy Mainframe Artifacts and Execute CICS NEWCOPY
+  hosts: zos_lpar
+  gather_facts: no
+  vars:
+    target_uss_path: "/u/dev/deploy/SAM1"
+    staging_load_dataset: "DEV.MAIN.PROJ.LOAD"
+    cics_region: "CICSPRD1"
+  tasks:
+    - name: Copy binary from USS staging to target PROD Load PDS
+      ibm.ibm_zos_core.zos_copy:
+        src: "{{ target_uss_path }}"
+        dest: "{{ staging_load_dataset }}(SAM1)"
+        encoding:
+          from: ISO8859-1
+          to: IBM-1047
+        executable: true
+
+    - name: Issue CICS NEWCOPY Command for Program SAM1
+      ibm.ibm_zos_core.zos_operator:
+        cmd: "F {{ cics_region }},CEMT PGM(SAM1) NEWCOPY"
+      register: cics_output
+
+    - name: Display CICS Operation Results
+      ansible.builtin.debug:
+        msg: "{{ cics_output.content }}"
