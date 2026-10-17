@@ -1,0 +1,24 @@
+# Build Artifacts & Temporary Workspaces
+*.OBJ
+*.LOAD
+*.Listing
+*.tmp
+.dbb/
+build/
+output/
+
+# Logs & Diagnostics
+*.log
+hs_err_pid*.jfr
+hs_err_pid*.log
+
+# IDE & OS Specific Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Deployment Staging & Manifests
+/u/dev/deploy/
+deploy_manifest.json
+sonar-report/
