@@ -1,0 +1,10 @@
+name: Mainframe CI/CD Pipeline ZAPP
+description: Optimized property group for local VS Code Z Open Editor navigation.
+author: IBM Z Open Editor
+propertyGroups:
+  - name: local-cobol-development
+    libraries:
+      - name: syslib
+        type: local
+        locations:
+          - "copybook"
