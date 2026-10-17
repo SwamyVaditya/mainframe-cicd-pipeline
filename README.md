@@ -45,7 +45,6 @@ mainframe-cicd-pipeline/
 ├── .github/
 │   └── workflows/
 │       └── pipeline.yml
-├── .gitlab-ci.yml
 ├── zapp.yaml
 ├── .gitignore
 └── README.md
