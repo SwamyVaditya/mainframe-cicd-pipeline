@@ -24,7 +24,7 @@ This repository implements a production-grade, end-to-end **Mainframe DevOps CI/
 
 ---
 
-## 1. THE COMPLETE PROJECT REPOSITORY ARCHITECTURE
+## 1. The Complete Project Repository Architecture
 
 ### Directory Structure
 
@@ -34,18 +34,21 @@ mainframe-cicd-pipeline/
 │   └── SAM1.cbl
 ├── copybook/
 │   └── SAMCOPY.cpy
-├── build.properties
-├── build.groovy
-├── package.groovy
-├── cleanup.groovy
+├── build/
+│   ├── build.properties
+│   ├── build.groovy
+│   ├── package.groovy
+│   ├── cleanup.groovy
+│   └── sonar-project.properties
 ├── ansible/
 │   └── deploy.yml
 ├── .github/
 │   └── workflows/
 │       └── pipeline.yml
 ├── .gitlab-ci.yml
-├── sonar-project.properties
-└── .gitignore
+├── zapp.yaml
+├── .gitignore
+└── README.md
 
 ```
 
