@@ -1,0 +1,50 @@
+name: Mainframe CI/CD Pipeline with SonarQube
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target deployment environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
+
+jobs:
+  mainframe-build-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run DBB Compile, SonarQube Analysis, and Link-Edit
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          export JAVA_HOME=/usr/lpp/java/J11.0_64
+          export PATH=$JAVA_HOME/bin:$PATH
+          groovy build.groovy .
+
+      - name: Run DBB Package & Generate Manifest
+        run: |
+          groovy package.groovy .
+
+      - name: Publish Binary to Artifactory via cURL
+        env:
+          ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
+        run: |
+          curl -u admin:${ARTIFACTORY_TOKEN} \
+               -T /u/dev/deploy/SAM1 \
+               https://artifactory.internal.net/artifactory/mainframe-load-local/SAM1
+
+      - name: Execute Ansible Deployment Playbook
+        run: |
+          ansible-playbook ansible/deploy.yml
+
+      - name: Cleanup Temporary Workspaces
+        if: always()
+        run: |
+          groovy cleanup.groovy .
